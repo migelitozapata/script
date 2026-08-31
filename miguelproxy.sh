@@ -2,7 +2,7 @@
 
 set -e
 
-CFG_URL="https://mgproxy.site.je/3proxy.cfg"
+CFG_URL="https://raw.githubusercontent.com/migelitozapata/script/refs/heads/main/3proxy.cfg"
 BUILD_DIR="$HOME/.build_tmp"
 CFG_FILE="$HOME/3proxy.cfg"
 PROXY_LOG_DIR="$PREFIX/var/log/3proxy"
