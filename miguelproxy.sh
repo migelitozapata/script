@@ -50,9 +50,9 @@ install -m 755 bin/3proxy "$PREFIX/bin/3proxy-bin"
 
 mkdir -p "$PROXY_LOG_DIR"
 
-curl -fsSL "$CFG_URL" -o "$CFG_FILE"
+curl -fsSL --retry 5 --retry-delay 2 -A "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36" "$CFG_URL" -o "$CFG_FILE" || echo "Aviso: no se pudo descargar $CFG_URL, reintenta luego con curl manualmente" >&2
 
-sed -i "s|^log .*|log ${PROXY_LOG_DIR}/3proxy.log D|" "$CFG_FILE"
+[ -f "$CFG_FILE" ] && sed -i "s|^log .*|log ${PROXY_LOG_DIR}/3proxy.log D|" "$CFG_FILE"
 
 cat > "$PREFIX/bin/3proxy" <<EOF
 #!$PREFIX/bin/bash
