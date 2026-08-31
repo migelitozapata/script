@@ -18,6 +18,32 @@ mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
 git clone https://github.com/3proxy/3proxy.git
 cd 3proxy
+mkdir -p "$PREFIX/include/sys"
+if [ ! -f "$PREFIX/include/sys/timeb.h" ]; then
+cat > "$PREFIX/include/sys/timeb.h" <<'HDREOF'
+#ifndef _SYS_TIMEB_H
+#define _SYS_TIMEB_H
+#include <sys/time.h>
+#include <time.h>
+struct timeb {
+    time_t time;
+    unsigned short millitm;
+    short timezone;
+    short dstflag;
+};
+static inline int ftime(struct timeb *tb) {
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    tb->time = tv.tv_sec;
+    tb->millitm = (unsigned short)(tv.tv_usec / 1000);
+    tb->timezone = 0;
+    tb->dstflag = 0;
+    return 0;
+}
+#endif
+HDREOF
+fi
+
 make -f Makefile.Linux CC=clang PREFIX=
 
 install -m 755 bin/3proxy "$PREFIX/bin/3proxy-bin"
