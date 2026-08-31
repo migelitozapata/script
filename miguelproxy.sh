@@ -18,7 +18,7 @@ mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
 git clone https://github.com/3proxy/3proxy.git
 cd 3proxy
-make -f Makefile.Linux CC=clang
+make -f Makefile.Linux CC=clang PREFIX=
 
 install -m 755 bin/3proxy "$PREFIX/bin/3proxy-bin"
 
@@ -48,4 +48,3 @@ fi
 
 cd "$HOME"
 rm -rf "$BUILD_DIR"
-
